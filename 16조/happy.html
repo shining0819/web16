@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>기쁨 - MoodTunes</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #FFF9C4, #FFF176);
+            margin: 0;
+            padding: 0;
+            color: #333;
+            overflow: hidden;
+        }
+
+        header {
+            width: 100%;
+            background-color: #FFD700;
+            color: white;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-button {
+            padding: 10px 20px;
+            margin: 20px 0;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            background-color: #FFD700;
+            color: white;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #FFC107;
+            transform: scale(1.05);
+        }
+
+        #playlist-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 140px);
+            transition: all 0.5s ease;
+        }
+
+        #playlist {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+            transition: all 0.5s ease;
+        }
+
+        #song-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #song-list li {
+            margin: 10px 0;
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #DDD;
+            transition: background-color 0.3s;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        #song-list li:hover {
+            background-color: #FFF59D;
+        }
+
+        #player-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-left: 20px;
+        }
+
+        #album-cover {
+            width: 300px;
+            height: 300px;
+            background-color: #eee;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        audio {
+            width: 100%;
+        }
+
+        .shift-left #playlist {
+            transform: translateX(-150px);
+        }
+
+        .shift-left #player-container {
+            display: flex;
+        }
+
+       /* Media queries for responsive design */
+        @media screen and (max-width: 768px) {
+            #playlist {
+                width: 90%;
+            }
+
+            #album-cover {
+                width: 250px;
+                height: 250px;
+            }
+
+            .back-button {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+
+            #song-list li {
+                font-size: 16px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            header {
+                padding: 10px 0;
+            }
+
+            .back-button {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+
+            #playlist {
+                width: 95%;
+            }
+
+            #album-cover {
+                width: 200px;
+                height: 200px;
+            }
+
+            #song-list li {
+                font-size: 14px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>기쁨 - MoodTunes</h1>
+    </header>
+    <button class="back-button" onclick="location.href='moodtunes.html'">돌아가기</button>
+    <div id="playlist-container">
+        <div id="playlist">
+            <ul id="song-list"></ul>
+        </div>
+        <div id="player-container">
+            <img id="album-cover" src="" alt="Album Cover">
+            <audio id="audio-player" controls></audio>
+        </div>
+    </div>
+    <script>
+        const playlists = {
+            happy: [
+                { title: "Happy", artist: "Pharrell Williams", src: "Happy.mp3", cover: "Happy.jpg" },
+                { title: "Dancing Queen", artist: "ABBA", src: "Dancing_Queen.mp3", cover: "Dancing_Queen.jpg" },
+                { title: "Can't Stop the Feeling!", artist: "Justin Timberlake", src: "Cant_Stop_the_Feeling.mp3", cover: "Cant_Stop_the_Feeling.jpg" },
+                { title: "Walking on Sunshine", artist: "Katrina and the Waves", src: "Walking_on_Sunshine.mp3", cover: "Walking_on_Sunshine.jpg" },
+                { title: "Good as Hell", artist: "Lizzo", src: "Good_as_Hell.mp3", cover: "Good_as_Hell.jpg" },
+                { title: "Uptown Funk", artist: "Mark Ronson ft. Bruno Mars", src: "Uptown_Funk.mp3", cover: "Uptown_Funk.jpg" },
+                { title: "I Gotta Feeling", artist: "The Black Eyed Peas", src: "I_Gotta_Feeling.mp3", cover: "I_Gotta_Feeling.jpg" },
+                { title: "Shake It Off", artist: "Taylor Swift", src: "Shake_It_Off.mp3", cover: "Shake_It_Off.jpg" },
+                { title: "Happy Together", artist: "The Turtles", src: "Happy_Together.mp3", cover: "Happy_Together.jpg" },
+                { title: "Best Day of My Life", artist: "American Authors", src: "Best_Day_of_My_Life.mp3", cover: "Best_Day_of_My_Life.jpg" }
+            ]
+        };
+
+        function showPlaylist() {
+            const playlist = playlists.happy;
+            const songList = document.getElementById('song-list');
+            const audioPlayer = document.getElementById('audio-player');
+            const albumCover = document.getElementById('album-cover');
+            const playlistContainer = document.getElementById('playlist-container');
+            
+            songList.innerHTML = '';
+            playlist.forEach(song => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${song.title} by ${song.artist}`;
+                listItem.onclick = () => {
+                    audioPlayer.src = song.src;
+                    albumCover.src = song.cover;
+                    playlistContainer.classList.add('shift-left');
+                    albumCover.style.display = 'block';
+                    audioPlayer.style.display = 'block';
+                    audioPlayer.play();
+                };
+                songList.appendChild(listItem);
+            });
+        }
+        
+        window.onload = showPlaylist;
+    </script>
+</body>
+</html>

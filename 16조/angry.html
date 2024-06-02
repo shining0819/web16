@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>화남 - MoodTunes</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #FFCDD2, #E57373);
+            margin: 0;
+            padding: 0;
+            color: #333;
+            overflow: hidden;
+        }
+
+        header {
+            width: 100%;
+            background-color: #F44336;
+            color: white;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-button {
+            padding: 10px 20px;
+            margin: 20px 0;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            background-color: #F44336;
+            color: white;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #D32F2F;
+            transform: scale(1.05);
+        }
+
+        #playlist-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 140px);
+            transition: all 0.5s ease;
+        }
+
+        #playlist {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+            transition: all 0.5s ease;
+        }
+
+        #song-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #song-list li {
+            margin: 10px 0;
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #DDD;
+            transition: background-color 0.3s;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        #song-list li:hover {
+            background-color: #FFCDD2;
+        }
+
+        #player-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-left: 20px;
+            flex: 0 0 300px;
+        }
+
+        #album-cover {
+            width: 300px;
+            height: 300px;
+            background-color: #eee;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        audio {
+            width: 100%;
+        }
+
+        .shift-left #playlist {
+            transform: translateX(-100px);
+        }
+
+        .shift-left #player-container {
+            display: flex;
+        }
+        /* Media queries for responsive design */
+       
+
+        @media screen and (max-width: 768px) {
+            #playlist {
+                width: 90%;
+            }
+
+            #album-cover {
+                width: 250px;
+                height: 250px;
+            }
+
+            .back-button {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+
+            #song-list li {
+                font-size: 16px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            header {
+                padding: 10px 0;
+            }
+
+            .back-button {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+
+            #playlist {
+                width: 95%;
+            }
+
+            #album-cover {
+                width: 200px;
+                height: 200px;
+            }
+
+            #song-list li {
+                font-size: 14px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>화남 - MoodTunes</h1>
+    </header>
+    <button class="back-button" onclick="location.href='moodtunes.html'">돌아가기</button>
+    <div id="playlist-container">
+        <div id="playlist">
+            <h2>추천 음악</h2>
+            <ul id="song-list"></ul>
+        </div>
+        <div id="player-container">
+            <img id="album-cover" src="" alt="Album Cover">
+            <audio id="audio-player" controls class="hidden"></audio>
+        </div>
+    </div>
+    <script>
+        const playlists = {
+            angry: [
+                { title: "Break Stuff", artist: "Limp Bizkit", src: "Break_Stuff.mp3", cover: "Break_Stuff.jpg" },
+                { title: "Killing in the Name", artist: "Rage Against the Machine", src: "Killing_in_the_Name.mp3", cover: "Killing_in_the_Name.jpg" },
+                { title: "Smells Like Teen Spirit", artist: "Nirvana", src: "Smells_Like_Teen_Spirit.mp3", cover: "Smells_Like_Teen_Spirit.jpg" },
+                { title: "Duality", artist: "Slipknot", src: "Duality.mp3", cover: "Duality.jpg" },
+                { title: "Headstrong", artist: "Trapt", src: "Headstrong.mp3", cover: "Headstrong.jpg" },
+                { title: "Given Up", artist: "Linkin Park", src: "Given_Up.mp3", cover: "Given_Up.jpg" },
+                { title: "Bodies", artist: "Drowning Pool", src: "Bodies.mp3", cover: "Bodies.jpg" },
+                { title: "Rolling in the Deep", artist: "Adele", src: "Rolling_in_the_Deep.mp3", cover: "Rolling_in_the_Deep.jpg" },
+                { title: "Welcome to the Jungle", artist: "Guns N' Roses", src: "Welcome_to_the_Jungle.mp3", cover: "Welcome_to_the_Jungle.jpg" },
+                
+            ]
+        };
+
+        function showPlaylist() {
+            const playlist = playlists.angry;
+            const songList = document.getElementById('song-list');
+            const audioPlayer = document.getElementById('audio-player');
+            const albumCover = document.getElementById('album-cover');
+            const playlistContainer = document.getElementById('playlist-container');
+            
+            songList.innerHTML = '';
+            playlist.forEach(song => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${song.title} by ${song.artist}`;
+                listItem.onclick = () => {
+                    audioPlayer.src = song.src;
+                    albumCover.src = song.cover;
+                    playlistContainer.classList.add('shift-left');
+                    albumCover.style.display = 'block';
+                    audioPlayer.style.display = 'block';
+                    audioPlayer.classList.remove('hidden');
+                    audioPlayer.play();
+                };
+                songList.appendChild(listItem);
+            });
+        }
+        
+        window.onload = showPlaylist;
+    </script>
+</body>
+</html>

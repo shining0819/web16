@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoodTunes</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #a8e063, #56ab2f);
+            margin: 0;
+            padding: 0;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 20px 0 10px 0; /* 상단 여백 20px, 하단 여백 10px */
+        }
+
+        .mood-selection {
+            margin: 10px auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .mood-button {
+            padding: 10px;
+            margin: 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: bisque;
+            width: 220px;
+            height: 280px;
+            transition: transform 0.3s, background-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .mood-button img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .mood-button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            transform: scale(1.05);
+        }
+
+        .mood-button p {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .footer {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+        @media screen and (max-width: 768px) {
+            .title {
+                font-size: 28px;
+            }
+
+            .mood-button {
+                width: 180px;
+                height: 230px;
+                margin: 10px;
+            }
+
+            .mood-button img {
+                width: 120px;
+                height: 120px;
+            }
+
+            .mood-button p {
+                font-size: 16px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .title {
+                font-size: 24px;
+            }
+
+            .mood-button {
+                width: 150px;
+                height: 200px;
+                margin: 5px;
+            }
+
+            .mood-button img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .mood-button p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MoodTunes</h1>
+    </header>
+    <div class="title">Choose Your Mood</div>
+    <div class="mood-selection">
+        <button class="mood-button" onclick="location.href='happy.html'">
+            <img src="joy.png" alt="기쁨">
+            <p>기쁨</p>
+        </button>
+        <button class="mood-button" onclick="location.href='sad.html'">
+            <img src="sad.png" alt="슬픔">
+            <p>슬픔</p>
+        </button>
+        <button class="mood-button" onclick="location.href='angry.html'">
+            <img src="anger.png" alt="화남">
+            <p>화남</p>
+        </button>
+        <button class="mood-button" onclick="location.href='annoyed.html'">
+            <img src="annoyed.png" alt="짜증">
+            <p>짜증</p>
+        </button>
+        <button class="mood-button" onclick="location.href='fearful.html'">
+            <img src="fear.png" alt="두려움">
+            <p>두려움</p>
+        </button>
+    </div>
+    <div class="footer">
+        <p>202434770 박세익, 202434740 김우진, 202434735 김성현, 202434799 이규비</p>
+    </div>
+</body>
+</html>
